@@ -1,10 +1,10 @@
 #Matrix inversion is usually a costly computation 
-#and their may be some benefit to caching the inverse of a matrix rather than compute it repeatedly.
+#and there may be some benefit to caching the inverse of a matrix rather than compute it repeatedly.
 #This R program creates a pair of functions that cache the inverse of a matrix.
 
 
 # makeCacheMatrix: This function creates a special "matrix" object 
-# the special matrix object exposes the following list of operations 
+# the special matrix object exposes  following functions 
 # 1. set the value of the matrix
 # 2. get the value of the matrix
 # 3. set the value of inverse of the matrix
@@ -14,8 +14,8 @@ makeCacheMatrix <- function(x = matrix()) {
     # set the value of inverse matrix to NULL 
     inv <- NULL
     
-    #whenever the matix will be changed , inverse will set as null
-    #that will solve the requirement "check if the matrix has not changed"
+    # whenever the matix will be changed , inverse will be set as null
+    # that will solve the requirement "check if the matrix has not changed"
     set <- function(y) {
       x <<- y
       inv <<- NULL
@@ -32,27 +32,25 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## cacheSolve: This function computes the inverse of the special "matrix" 
-##returned by makeCacheMatrix above. 
-##If the inverse has already been calculated (and the matrix has not changed), 
-##then the cachesolve should retrieve the inverse from the cache.
+## cacheSolve: This function computes the inverse of the special matrix 
+## returned by makeCacheMatrix above. 
+## If the inverse has already been calculated (and the matrix has not changed), 
+## then the cachesolve should retrieve the inverse from the cache.
 
 cacheSolve <- function(x, ...) {
-    #tru to get inverse from cache
+    #try to get inverse from cache
     inv <- x$getinverse()
     
     # check if an inverse is found  
     if(!is.null(inv)) {
-        
         message("getting cached data.")
-        return(inv)
-        
+        return(inv)     
     }
     
-    #otherwiese calcuclate inverse and set in cache , then return inverse
+    #otherwiese calculate inverse and set in cache , return the value
     data <- x$get()
     inv <- solve(data,...)
     x$setinverse(inv)
-    inv
+    return(inv)
     
 }
